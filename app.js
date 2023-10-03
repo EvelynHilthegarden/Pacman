@@ -225,26 +225,38 @@ document.addEventListener("DOMContentLoaded", () => {
     let direction = directions[Math.floor(Math.random() * directions.length)];
 
     ghost.timerId = setInterval(function () {
-      //if the next squre your ghost is going to go to does not have a ghost and does not have a wall
+      /*Nesse "if" temos que o fantasma de fato se moverá caso não aja um outro fantasma nem uma 
+      parede na direção em que ele esteja indo*/
       if (
         !squares[ghost.currentIndex + direction]?.classList.contains("ghost") &&
         !squares[ghost.currentIndex + direction]?.classList.contains("wall")
       ) {
-        //remove the ghosts classes
+        /*A ideia de movimentação dos fantasmas segue a ideia de removê-lo do lugar em que está
+        atualmente e redesenhá-lo no novo espaço escolhido aleatoriamente, então a ideia das 2 linhas de
+        código abaixo é justamente essa: remover as classes do CSS vinculadas ao fantasma em questão na
+        localização atual dele. No caso, essas classes são 2: "ghost" e "scared-ghost", para cada 
+        um dos fantasmas*/
         squares[ghost.currentIndex]?.classList.remove(ghost.ghostName);
         squares[ghost.currentIndex]?.classList.remove("ghost", "scared-ghost");
-        //move into that space
+        /*Abaixo temos a continuidade do pensamento descrito acima: agora, cada fantasma está em uma
+        nova localização (que foi calculada somando-se o "direction" que já comentamos com a localização
+        atual do fantasma) e portanto deve ser redesenhado*/
         ghost.currentIndex += direction;
         squares[ghost.currentIndex]?.classList.add(ghost.ghostName, "ghost");
-        //else find a new random direction ot go in
+        /*Aqui temos o else pro caso em que as condições do if acima forem falsas: neste caso deve-se,
+        seguindo o mesmo padrão aleatório comentado anteriormente, selecionar uma nova direção para ir*/
       } else direction = directions[Math.floor(Math.random() * directions.length)];
 
-      //if the ghost is currently scared
+      /*Se o fantasma estiver assustado, ou seja, o atributo "isScared" estiver retornando "true",
+      então é desenhado na tela, na localização atual do fantasma, o "fantasma assustado", 
+      definido no "style.css" como "scared-ghost"*/
       if (ghost.isScared) {
         squares[ghost.currentIndex]?.classList.add("scared-ghost");
       }
 
-      //if the ghost is currently scared and pacman is on it
+      /*Se o fantasma estiver assustado e a localização atual dele for a mesma do pacman, então ele
+      retorna à posição inicial (seguindo aquela ideia de removê-lo de uma localização e redesenhá-lo
+      em outra). Além disso, 100 pontos são adicionados ao score do jogador*/
       if (
         ghost.isScared &&
         squares[ghost.currentIndex]?.classList.contains("pac-man")
@@ -258,6 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
         score += 100;
         squares[ghost.currentIndex]?.classList.add(ghost.ghostName, "ghost");
       }
+      //Por fim, é chamada a função para checar se o jogador perdeu o jogo
       checkForGameOver();
     }, ghost.speed);
   }
