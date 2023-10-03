@@ -1,5 +1,3 @@
-//Foi usado de base o projeto: https://github.com/kubowania/pac-man
-
 document.addEventListener("DOMContentLoaded", () => {
   const scoreDisplay = document.getElementById("score");
   const width = 28;
