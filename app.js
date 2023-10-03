@@ -210,9 +210,18 @@ document.addEventListener("DOMContentLoaded", () => {
   //Neste ponto, para cada fantasma presente em "listGhosts" é chamada a função "moveGhost"
   listGhosts.forEach((ghost) => moveGhost(ghost));
 
-  //Essa função é responsável pela movimentação dos fantasmas, que acontece randomicamente.
+  /*Essa é a função responsável pela movimentação dos fantasmas, que acontece aleatoriamente. Nela
+  é passado como parâmetro o objeto "ghost", como observado na chamada da função apresentada 
+  anteriormente.*/
   function moveGhost(ghost) {
+    /*Aqui temos uma constante que delimita o deslocamento do fantasma em altura
+    e largura.*/
     const directions = [-1, +1, width, -width];
+    /*Aqui temos a constante responsável por selecionar aleatoriamente o movimento que o fantasma 
+    realizará, dentro dos limites estabelecidos em "directions".
+    Por ser responsável por selecionar números para o movimento dos fantasmas repetidas vezes, 
+    o valor recebido por ela é sempre alterado e por isso foi preciso utilizar "let" em sua 
+    declaração em vez de se utilizar "const".*/
     let direction = directions[Math.floor(Math.random() * directions.length)];
 
     ghost.timerId = setInterval(function () {
