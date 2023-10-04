@@ -202,13 +202,13 @@ document.addEventListener("DOMContentLoaded", () => {
   Detalhando um pouco mais: para cada fantasma - em sua localização atual - será adicionado um 
   quadrado. A função ".add" atua sobre o css, havendo uma referência no arquivo "style.css" a cada 
   fantasma a partir de seu nome, que é justamente o "ghostName" acessado na função abaixo.*/
-  listGhosts.forEach((ghost) => {
+  listGhosts.map((ghost) => {
     squares[ghost.currentIndex]?.classList.add(ghost.ghostName);
     squares[ghost.currentIndex]?.classList.add("ghost");
   });
 
   //Neste ponto, para cada fantasma presente em "listGhosts" é chamada a função "moveGhost"
-  listGhosts.forEach((ghost) => moveGhost(ghost));
+  listGhosts.map((ghost) => moveGhost(ghost));
 
   /*Essa é a função responsável pela movimentação dos fantasmas, que acontece aleatoriamente. Nela
   é passado como parâmetro o objeto "ghost", como observado na chamada da função apresentada 
@@ -281,7 +281,7 @@ document.addEventListener("DOMContentLoaded", () => {
       squares[pacmanCurrentIndex].classList.contains("ghost") &&
       !squares[pacmanCurrentIndex].classList.contains("scared-ghost")
     ) {
-      listGhosts.forEach((ghost) => clearInterval(ghost.timerId));
+      listGhosts.map((ghost) => clearInterval(ghost.timerId));
       document.removeEventListener("keyup", movePacman);
       setTimeout(function () {
         alert("Game Over");
@@ -291,8 +291,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //check for a win - more is when this score is reached
   function checkForWin() {
-    if (score === 274) {
-      listGhosts.forEach((ghost) => clearInterval(ghost.timerId));
+    if (score >= 274) {
+      listGhosts.map((ghost) => clearInterval(ghost.timerId));
       document.removeEventListener("keyup", movePacman);
       setTimeout(function () {
         alert("You have WON!");
