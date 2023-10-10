@@ -7,9 +7,30 @@
     <script src="app.js" charset="utf-8"></script>
   </head>
   <body>
-    <div class="grid"></div>
-
+    <button id="open-modal">Instruções do jogo</button>
     <h3>Score:<span id="score"></span></h3>
 
+    <div id="fade" class="hide"></div>
+    <div id="modal" class="hide">
+      <div class="modal-header">
+        <h2>PACMAN: Como jogar?</h2>
+        <button id="close-modal">Fechar</button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Para jogar basta caminhar pelo tabuleiro com o Pacman. As setas do
+          teclado devem ser utilizadas para isso.
+        </p>
+        <p>
+          Você precisará fugir dos 4 fantasmas capturando moedinhas enquanto
+          busca pela saída do labirinto (este é o objetivo principal)!
+        </p>
+        <p>
+          Quando todas as moedinhas (as chamadas "pacdots") forem capturadas e a
+          saída do labirinto for encontrada você vencerá o jogo! ;)
+        </p>
+      </div>
+    </div>
+    <div class="grid"></div>
   </body>
 </html>
