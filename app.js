@@ -43,6 +43,28 @@ document.addEventListener("DOMContentLoaded", () => {
   // 3 - power-pellet
   // 4 - empty
 
+  /*Aqui podemos ver as constantes criadas para manipulação dos elementos relacionados ao modal,
+  que são os botões de abrir e fechar o modal, além do próprio modal e do "fade", que nada mais
+  é do que o fundo cinza presente quando se abre o modal*/
+  const openModalButton = document.querySelector("#open-modal");
+  const closeModalButton = document.querySelector("#close-modal");
+  const modal = document.querySelector("#modal");
+  const fade = document.querySelector("#fade");
+
+  /*Abaixo tem-se uma função responsável por alternar os estados do modal e do fade, pois para
+  esses 2 elementos somente existem 2 possibilidades: ou estão sendo exibidos ou não estão. Essa
+  alternância de estados é feita utilizando o "toggle"*/
+  const toggleModal = () => {
+    modal.classList.toggle("hide");
+    fade.classList.toggle("hide");
+  };
+
+  /*Aqui pode-se visualizar a função anterior sendo aplicada ao elementos que se relacionam com
+  o modal: botões de abrir e fechar e o "fade"*/
+  [openModalButton, closeModalButton, fade].map((el) => {
+    el.addEventListener("click", () => toggleModal());
+  });
+  
   const squares = [];
 
   //create your board
