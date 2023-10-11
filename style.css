@@ -51,6 +51,15 @@
     background-color: aquamarine;
 }
 
+.invisibleGate{
+  background-color: #0000ff;
+}
+
+.show-gate{
+  background-color: #ffc400;
+  transition: 0.4s;
+}
+
 body {
   padding: 1rem;
 }

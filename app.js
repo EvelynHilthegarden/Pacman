@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const layout = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1,
+    0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 5, 6,
     1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 3, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0,
     1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 3, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0,
     1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -83,6 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
         squares[i].classList.add("ghost-lair");
       } else if (layout[i] === 3) {
         squares[i].classList.add("power-pellet");
+      } else if(layout[i] === 5 || layout[i] === 6){
+        squares[i].classList.add("invisibleGate");
       }
     }
   }
@@ -147,31 +149,66 @@ document.addEventListener("DOMContentLoaded", () => {
     powerPelletEaten();
     checkForGameOver();
     checkForWin();
+    showGate();
   }
   document.addEventListener("keyup", movePacman);
 
-  // what happens when you eat a pac-dot
-  function pacDotEaten() {
+  /* A função showGate filtra o array squares duas vezes, esse filtro retorna outros dois arrays, um contém todos os elementos 
+  pac-dot, chamado numberOfPacDot, e o outro array, chamado numberOfPowerPellet, contém todos os elementos power-pellet. 
+    Se o tamanho dos dois arrays for igual a 0 significa que o usuário comeu todos os pac-dots e power-pellets, então, por meio de
+  um indexOf no array layout encontramos as posições das portas direita e esqueda do portão, rightPortalDoor  e leftPortalDoor
+  respectivamente, esses valores serão utilizados para identificar o portão no array squares e modificar o css, removendo a class
+  "gate" e adicionando a class "show-gate" em ambas as portas. Após isso o usuário poderá localizar o portão e ao passar por ele 
+  o jogo finaliza
+  */
+  const showGate = () => {
+
+    const numberOfPacDot = squares.filter(square => square.classList.contains("pac-dot"));
+    const numberOfPowerPellet = squares.filter(square => square.classList.contains("power-pallet"));
+
+    if(numberOfPacDot.length === 0 && numberOfPowerPellet.length === 0){
+      const rightPortalDoor = layout.indexOf(5);
+      const leftPortalDoor = layout.indexOf(6);
+
+      squares[rightPortalDoor].classList.remove("invisibleGate");
+      squares[rightPortalDoor].classList.add("show-gate");
+
+      squares[leftPortalDoor].classList.remove("invisibleGate");
+      squares[leftPortalDoor].classList.add("show-gate");
+    } 
+  }
+
+  /* Função realiza os seguintes ecentos quando o usuário come um pac-dot: 
+    * Adiciona +1 ao score e atualiza o score no display.
+    * Remove o pac-dot do tabuleiro. */
+  const pacDotEaten = () => {
     if (squares[pacmanCurrentIndex].classList.contains("pac-dot")) {
-      score++;
+      score += 1;
       scoreDisplay.innerHTML = score;
       squares[pacmanCurrentIndex].classList.remove("pac-dot");
     }
   }
 
-  //what happens when you eat a power-pellet
-  function powerPelletEaten() {
+  /* Função realiza os seguintes eventos quando o usuário come uma power-pellet: 
+    * Adiciona +10 ao score e atualiza o score no display.
+    * Seta o estado "isScared" de cada ghost em listGhost de false para true, todos os ghosts ficaram azul e se o pacman 
+    colidir com algum, o ghost será mandado de volta para o centro do tabuleiro, e é adicionado +100 ao score..
+    * Usando o setTimeOut esperamos 10 segundos e chamamos a função unScareGhosts, que setará o estado "isScare" 
+    de true para false, ou seja, os ghosts voltaram a ficar coloridos e o pacman não pode mais entrar em contato com eles. 
+    * Remove a power-pellet do tabuleiro */
+  const powerPelletEaten = () => {
     if (squares[pacmanCurrentIndex].classList.contains("power-pellet")) {
       score += 10;
-      listGhosts.forEach((ghost) => (ghost.isScared = true));
+      listGhosts.map((ghost) => (ghost.isScared = true));
       setTimeout(unScareGhosts, 10000);
       squares[pacmanCurrentIndex].classList.remove("power-pellet");
     }
   }
 
-  //make the ghosts stop flashing
-  function unScareGhosts() {
-    listGhosts.forEach((ghost) => (ghost.isScared = false));
+  /*Função que passa em cada ghost presente em listGhosts e torna "isScare" false. Nesse momento os Ghosts
+  voltaram a ser coloridos e se o pacman colidir com algum ghost o jogo finaliza*/ 
+  const unScareGhosts = () => {
+    listGhosts.map((ghost) => (ghost.isScared = false));
   }
 
   /*Abaixo foram criados 4 registros representando os 4 fantasminhas que aparecerão no labirinto. 
@@ -313,7 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //check for a win - more is when this score is reached
   function checkForWin() {
-    if (score >= 274) {
+    if (squares[pacmanCurrentIndex].classList.contains("show-gate")) {
       listGhosts.map((ghost) => clearInterval(ghost.timerId));
       document.removeEventListener("keyup", movePacman);
       setTimeout(function () {
