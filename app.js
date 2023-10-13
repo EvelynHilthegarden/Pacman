@@ -61,14 +61,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /*Aqui pode-se visualizar a função anterior sendo aplicada ao elementos que se relacionam com
   o modal: botões de abrir e fechar e o "fade"*/
-  [openModalButton, closeModalButton, fade].map((el) => {
-    el.addEventListener("click", () => toggleModal());
-  });
+  // [openModalButton, closeModalButton, fade].map((el) => {
+  //   el.addEventListener("click", () => toggleModal());
+  // });
   
   const squares = [];
 
   //create your board
-  const createSquares = (x) => {
+  const createBoard = (x) => {
     const square = document.createElement("div");
     grid.appendChild(square);
     
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     squares.push(square);
   }
-  createBoard();
+  layout.map(createBoard);
 
   //create Characters
   //draw pacman onto the board
