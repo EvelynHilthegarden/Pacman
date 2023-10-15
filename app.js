@@ -334,8 +334,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }, ghost.speed);
   }
 
-  //check for a game over
-  function checkForGameOver() {
+  /*Essa função é responsável por validar se o usuário perdeu o jogo. Isso acontece quando o Pacman esbarra em um fantasma que não
+  esteja em sua condição vulnerável de "scared-ghost".
+  Adicionalmente, quando o jogo é perdido, uma mensagem de alerta é exibida para o usuário informando que ele perdeu o jogo.*/
+  const checkForGameOver = () => {
     if (
       squares[pacmanCurrentIndex].classList.contains("ghost") &&
       !squares[pacmanCurrentIndex].classList.contains("scared-ghost")
@@ -343,7 +345,7 @@ document.addEventListener("DOMContentLoaded", () => {
       listGhosts.map((ghost) => clearInterval(ghost.timerId));
       document.removeEventListener("keyup", movePacman);
       setTimeout(function () {
-        alert("Game Over");
+        alert("Você PERDEU! Que pena :(");
       }, 500);
     }
   }
@@ -354,7 +356,7 @@ document.addEventListener("DOMContentLoaded", () => {
       listGhosts.map((ghost) => clearInterval(ghost.timerId));
       document.removeEventListener("keyup", movePacman);
       setTimeout(function () {
-        alert("You have WON!");
+        alert("Você VENCEU! Parabéns! ;)");
       }, 500);
     }
   }
