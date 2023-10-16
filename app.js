@@ -279,6 +279,11 @@ document.addEventListener("DOMContentLoaded", () => {
     declaração em vez de se utilizar "const".*/
     let direction = directions[Math.floor(Math.random() * directions.length)];
 
+    /*A função abaixo utiliza a função nativa do JavaScript setTimeout para criar um loop com recursividade e simular outra função nativa, 
+    a setInterval. O loop vai iniciar com a chamada da função repeat que verifica se a variável cancel é falsa, se for, criamos um setTimeout
+    que chama novamente a função repeat. A função retorna uma função anônima que modifica a variável cancel, tornando ela verdadeira. Quando
+    chamarmos timer.id  ela terá o retorno da função e irá cancelar o loop com o clearInterval.*/
+
     const intervalRecursive = (callback = ()=>{}, tempo=0) => {
       let cancel = false; 
   
