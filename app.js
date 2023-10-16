@@ -283,7 +283,23 @@ document.addEventListener("DOMContentLoaded", () => {
     declaração em vez de se utilizar "const".*/
     let direction = directions[Math.floor(Math.random() * directions.length)];
 
-    ghost.timerId = setInterval(function () {
+    const intervalRecursive = (callback = ()=>{}, tempo=0) => {
+      let cancel = false; 
+  
+      const repeat = () => {
+          if(cancel === false){
+              callback();
+              setTimeout(repeat, tempo); 
+         }
+      }
+  
+      setTimeout(repeat, tempo);
+  
+      return () => {
+          cancel = true;
+      }
+  }
+    ghost.timerId = intervalRecursive(function () {
       /*Nesse "if" temos que o fantasma de fato se moverá caso não aja um outro fantasma nem uma 
       parede na direção em que ele esteja indo*/
       if (
