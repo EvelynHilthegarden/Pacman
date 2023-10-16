@@ -350,8 +350,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  //check for a win - more is when this score is reached
-  function checkForWin() {
+  /* A função CheckForWin confere se o jogador ganhou o jogo, essa verificação é feita por meio da posição atual do pacman,
+  se ele estiver na posição onde a class é "show-gate", ou seja, a posição do portão, o jogo finalizará. Lembrando que o 
+  portão só aparece no labirinto quando todas as pac-dots e power-pellets forem comidas. O recusiveInterval será limpo e
+  um alert informará o jogador que ele venceu. 
+   */
+  const checkForWin = () => {
     if (squares[pacmanCurrentIndex].classList.contains("show-gate")) {
       listGhosts.map((ghost) => clearInterval(ghost.timerId));
       document.removeEventListener("keyup", movePacman);
