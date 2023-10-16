@@ -61,9 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /*Aqui pode-se visualizar a função anterior sendo aplicada ao elementos que se relacionam com
   o modal: botões de abrir e fechar e o "fade"*/
-  // [openModalButton, closeModalButton, fade].map((el) => {
-  //   el.addEventListener("click", () => toggleModal());
-  // });
+  [openModalButton, closeModalButton, fade].map((el) => {
+     el.addEventListener("click", () => toggleModal());
+  });
   
   const squares = [];
 
